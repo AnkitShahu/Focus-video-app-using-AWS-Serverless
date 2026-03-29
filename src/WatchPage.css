@@ -1,0 +1,170 @@
+.watch-page {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  animation: fadeIn 0.4s ease-out;
+  padding-bottom: 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.watch-header {
+  display: flex;
+  align-items: center;
+}
+
+.back-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  font-weight: 700;
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+  background: white;
+  padding: 0.5rem 1rem;
+  border: 2px solid #000;
+  border-radius: 8px;
+  box-shadow: 2px 2px 0px #000;
+}
+
+.back-link:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0px #000;
+}
+
+.watch-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  background: white;
+  padding: 2rem;
+  border: 3px solid #000;
+  border-radius: 16px;
+  box-shadow: 6px 6px 0px #000;
+}
+
+.watch-title {
+  font-size: 2.25rem;
+  font-weight: 900;
+  color: #000;
+  line-height: 1.2;
+  margin: 0;
+  flex: 1;
+}
+
+.btn-watched {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: white;
+  color: #000;
+  border: 2px solid #000;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 1rem;
+  transition: all 0.2s;
+  box-shadow: 3px 3px 0px #000;
+}
+
+.btn-watched:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #000;
+}
+
+.btn-watched.active {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.player-container {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  background-color: #000;
+  border: 4px solid #000;
+  box-shadow: 8px 8px 0px #000;
+  padding-bottom: 56.25%; /* 16:9 ratio */
+}
+
+.video-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.notes-section {
+  display: flex;
+  flex-direction: column;
+  padding: 2.5rem;
+  border-radius: 16px;
+  gap: 1.5rem;
+  background-color: white;
+  border: 3px solid #000;
+  box-shadow: 6px 6px 0px #000;
+}
+
+.notes-section h2 {
+  font-size: 1.75rem;
+  font-weight: 900;
+}
+
+.notes-textarea {
+  width: 100%;
+  min-height: 180px;
+  background-color: var(--bg-primary); /* pinkish */
+  border: 2px solid #000;
+  border-radius: 8px;
+  padding: 1.5rem;
+  color: #000;
+  font-size: 1.05rem;
+  font-weight: 500;
+  resize: vertical;
+  box-shadow: inset 2px 2px 0px rgba(0,0,0,0.05);
+}
+
+.notes-textarea:focus {
+  background-color: white;
+  border-color: var(--accent-color);
+}
+
+.notes-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-save-notes {
+  background-color: var(--accent-color);
+  color: white;
+  border: 2px solid #000;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 1.1rem;
+  transition: all 0.2s;
+  box-shadow: 4px 4px 0px #000;
+}
+
+.btn-save-notes:active:not(:disabled) {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0px #000;
+}
+
+.btn-save-notes:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.watch-loading {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  font-weight: 800;
+  padding: 4rem;
+  text-align: center;
+}

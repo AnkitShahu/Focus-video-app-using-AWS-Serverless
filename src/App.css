@@ -1,0 +1,130 @@
+.brutalist-app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.brutalist-nav {
+  height: 80px;
+  background-color: var(--accent-color);
+  border-bottom: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  color: white;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: white;
+  text-decoration: none;
+}
+
+.brand-logo {
+  background: #fdf2f8;
+  color: var(--accent-color);
+  padding: 6px;
+  border-radius: 50%;
+  border: 2px solid #000;
+  display: flex;
+  box-shadow: 2px 2px 0px #000;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.nav-links a {
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-links a::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #fbbf24;
+  border-radius: 50%;
+}
+
+.nav-links a:hover {
+  opacity: 0.8;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-nav-outline {
+  background-color: transparent;
+  border: 2px solid rgba(255,255,255,0.5);
+  color: white;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.btn-nav-solid {
+  background-color: white;
+  border: 2px solid #000;
+  color: #000;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 800;
+  box-shadow: 3px 3px 0px #000;
+}
+
+.brutalist-main {
+  flex: 1;
+  padding: 3rem 5%;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Modal Brutalism */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fdf2f8; /* Matching the pinkish background */
+  border: 3px solid var(--border-color);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 550px;
+  padding: 2.5rem;
+  position: relative;
+  box-shadow: 8px 8px 0px #000;
+}
+
+.modal-close-icon {
+  background: white;
+  border: 2px solid #000;
+  border-radius: 50%;
+  box-shadow: 2px 2px 0px #000;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+}

@@ -1,0 +1,79 @@
+:root {
+  --bg-primary: #fdf2f8;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f5f9;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --accent-color: #8b5cf6;
+  --accent-hover: #7c3aed;
+  --danger-color: #ef4444;
+  --success-color: #22c55e;
+  --border-color: #000000;
+  --border-radius: 12px;
+  --transition-speed: 0.2s;
+  
+  --shadow-brutal: 4px 4px 0px #000;
+  --shadow-brutal-hover: 6px 6px 0px #000;
+  --shadow-brutal-sm: 2px 2px 0px #000;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: normal;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: color var(--transition-speed) ease;
+}
+
+button {
+  cursor: pointer;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  font-family: inherit;
+  color: inherit;
+  outline: none;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000 !important;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  color: var(--text-primary);
+  background-color: #fff;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px 14px;
+  outline: none;
+  box-shadow: var(--shadow-brutal-sm);
+  transition: all 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent-color);
+  box-shadow: 2px 2px 0px var(--accent-color);
+}
+
+.brutalist-panel {
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-brutal);
+}
