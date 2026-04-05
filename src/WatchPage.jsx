@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, CheckCircle } from 'lucide-react';
+import YouTube from 'react-youtube';
 import './WatchPage.css';
 
 export default function WatchPage() {
@@ -10,6 +11,7 @@ export default function WatchPage() {
   const [isWatched, setIsWatched] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [player, setPlayer] = useState(null);
 
   useEffect(() => {
     fetchVideo();
@@ -62,6 +64,46 @@ export default function WatchPage() {
     }
   };
 
+  useEffect(() => {
+    if (!player) return;
+
+    let syncInterval;
+    let initialTimeout;
+
+    const syncTime = async () => {
+      try {
+        // playerState 1 means PLAYING
+        if (player.getPlayerState() === 1) {
+          const currentTime = Math.floor(player.getCurrentTime());
+          const duration = Math.floor(player.getDuration());
+          await fetch(`${import.meta.env.VITE_API_BASE_URL}/videos/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ watch_time: currentTime, duration })
+          });
+        }
+      } catch (err) {
+        console.error('Failed to sync watch time:', err);
+      }
+    };
+
+    // Fast sync after 10 seconds 
+    initialTimeout = setTimeout(() => {
+      syncTime();
+      // Regular sync every 60 seconds
+      syncInterval = setInterval(syncTime, 60000);
+    }, 10000);
+
+    return () => {
+      clearTimeout(initialTimeout);
+      if (syncInterval) clearInterval(syncInterval);
+    };
+  }, [player, id]);
+
+  const onReady = (event) => {
+    setPlayer(event.target);
+  };
+
   if (isLoading) return <div className="watch-loading">Loading...</div>;
   if (!video) return <div className="watch-loading">Video not found.</div>;
 
@@ -86,14 +128,22 @@ export default function WatchPage() {
       </div>
 
       <div className="player-container">
-        <iframe
-          src={`https://www.youtube-nocookie.com/embed/${video.video_id}?rel=0&modestbranding=1&autohide=1&showinfo=0`}
-          title={video.title}
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
+        <YouTube 
+          videoId={video.video_id} 
+          opts={{
+            height: '100%',
+            width: '100%',
+            playerVars: {
+              autoplay: 0,
+              start: video.watch_time || 0,
+              rel: 0,
+              modestbranding: 1
+            }
+          }}
+          onReady={onReady} 
           className="video-player"
-        ></iframe>
+          iframeClassName="video-player"
+        />
       </div>
 
       <div className="notes-section glass-panel">

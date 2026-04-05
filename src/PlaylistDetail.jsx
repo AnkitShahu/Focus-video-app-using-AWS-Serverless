@@ -1,12 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Trash2 } from 'lucide-react';
+import { ArrowLeft, Trash2, Edit2, Check, X } from 'lucide-react';
 
 export default function PlaylistDetail({ playlists, onAddPlaylist }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [videos, setVideos] = useState([]);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [editedName, setEditedName] = useState('');
+  
   const playlist = playlists.find(p => p.id.toString() === id);
+
+  useEffect(() => {
+    if (playlist) setEditedName(playlist.name);
+  }, [playlist]);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_BASE_URL}/playlists/${id}/videos`)
@@ -41,17 +48,60 @@ export default function PlaylistDetail({ playlists, onAddPlaylist }) {
     }
   };
 
+  const handleRename = async () => {
+    if (!editedName.trim() || editedName === playlist.name) {
+      setIsEditingName(false);
+      return;
+    }
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/playlists/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: editedName })
+      });
+      if (res.ok) {
+        if (onAddPlaylist) onAddPlaylist();
+        setIsEditingName(false);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className="playlist-detail" style={{ animation: 'fadeIn 0.3s' }}>
       <Link to="/" className="btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem', background: 'transparent', border: 'none', boxShadow: 'none', padding: 0, fontSize: '1.1rem', fontWeight: 600 }}>
         <ArrowLeft size={20} /> Back to Dashboard
       </Link>
       
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '3rem' }}>
-        <h1 style={{ fontSize: '3.5rem', fontWeight: 900, margin: 0, letterSpacing: '-1px' }}>{playlist?.name || 'Playlist View'}</h1>
-        <button onClick={handleDeletePlaylist} title="Delete Playlist" style={{ background: 'var(--danger-color)', color: 'white', border: '3px solid #000', boxShadow: '4px 4px 0px #000', padding: '10px', borderRadius: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Trash2 size={24} />
-        </button>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '3rem', flexWrap: 'wrap' }}>
+        {isEditingName ? (
+           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flex: 1, minWidth: '300px' }}>
+             <input 
+               type="text" 
+               value={editedName}
+               onChange={(e) => setEditedName(e.target.value)}
+               autoFocus
+               style={{ fontSize: '2.5rem', fontWeight: 900, padding: '8px 16px', border: '4px solid #000', borderRadius: '12px', width: '100%', boxShadow: '6px 6px 0px #000' }}
+             />
+             <button onClick={handleRename} style={{ background: '#4ade80', color: '#000', border: '3px solid #000', boxShadow: '4px 4px 0px #000', padding: '10px', borderRadius: '12px', cursor: 'pointer' }}>
+               <Check size={24} strokeWidth={3} />
+             </button>
+             <button onClick={() => { setIsEditingName(false); setEditedName(playlist.name); }} style={{ background: '#f87171', color: '#000', border: '3px solid #000', boxShadow: '4px 4px 0px #000', padding: '10px', borderRadius: '12px', cursor: 'pointer' }}>
+               <X size={24} strokeWidth={3} />
+             </button>
+           </div>
+        ) : (
+          <>
+            <h1 style={{ fontSize: '3.5rem', fontWeight: 900, margin: 0, letterSpacing: '-1px' }}>{playlist?.name || 'Playlist View'}</h1>
+            <button onClick={() => setIsEditingName(true)} title="Rename Playlist" style={{ background: '#fef08a', color: '#000', border: '3px solid #000', boxShadow: '4px 4px 0px #000', padding: '10px', borderRadius: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Edit2 size={24} />
+            </button>
+            <button onClick={handleDeletePlaylist} title="Delete Playlist" style={{ background: 'var(--danger-color)', color: 'white', border: '3px solid #000', boxShadow: '4px 4px 0px #000', padding: '10px', borderRadius: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Trash2 size={24} />
+            </button>
+          </>
+        )}
       </div>
 
       <div className="video-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '2.5rem' }}>
